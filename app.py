@@ -16,9 +16,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/", tags=["Root"])
-async def read_root():
-    return {"message": "Welcome to Jake's API!"}
+@app.get("/predict")
+def predict(data:dict):
+  # Load model from .pkl file
+  with open('./dc_model.pkl','rb') as file:
+    model = pickle.load(file)
+    # Convert input data to DataFrame
+    df = pd.DataFrame(data, index=[0])
+    # Make prediction
+    prediction = model.predict(df)
+    # Return Prediction as JSON response
+    return {'prediction': prediction[0]}
 
 # Define endpoint for making predictions
 @app.post('/predict')
@@ -34,7 +42,7 @@ def predict(data:dict):
     return {'prediction': prediction[0]}
 
 
-        # Sample Json Data
+    #     Sample Json Data
     #  {
     #     "squarenorthsouth": 200,
     #     "squareeastwest": 20,
