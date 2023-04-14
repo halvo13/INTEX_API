@@ -16,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/predict")
+@app.get("/predict/get")
 def predict(data:dict):
   # Load model from .pkl file
   with open('./dc_model.pkl','rb') as file:
@@ -29,7 +29,7 @@ def predict(data:dict):
     return {'prediction': prediction[0]}
 
 # Define endpoint for making predictions
-@app.post('/predict')
+@app.post('/predict/post')
 def predict(data:dict):
   # Load model from .pkl file
   with open('./dc_model.pkl','rb') as file:
